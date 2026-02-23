@@ -65,8 +65,7 @@ function GOARCH(arch)
         ppc64le = "ppc64le",
         riscv64 = "riscv64",
         s390x = "s390x",
-        wasm = "wasm",
-        wasm32 = "wasm"
+        wasm = "wasm"
     }
     
     -- try direct match first
