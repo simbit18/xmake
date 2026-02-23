@@ -95,12 +95,10 @@ function _do_run_target(target)
 
     -- run wasm target
     if target:is_plat("wasm") then
-        -- run via wasmtime if using the wasi toolchain, otherwise open in browser
-        local is_wasi = target:toolchain("wasi") or (target:has_tool("cc", "clang") and target:has_tool("ar", "llvm-ar"))
-        if is_wasi then
-            _run_wasi_target(targetfile, args, {rundir = rundir, addenvs = addenvs, setenvs = setenvs})
-        else
+        if target:has_tool("cc", "emcc") then
             _run_wasm_target_in_browser(targetfile, {rundir = rundir, addenvs = addenvs, setenvs = setenvs})
+        else
+            _run_wasi_target(targetfile, args, {rundir = rundir, addenvs = addenvs, setenvs = setenvs})
         end
         return
     end
