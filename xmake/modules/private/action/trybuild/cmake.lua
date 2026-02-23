@@ -281,7 +281,7 @@ end
 
 -- get configs for wasm
 function _get_configs_for_wasm(configs)
-    if is_plat("wasi") then
+    if config.get("toolchain") == "wasi" then
         _get_configs_for_cross(configs)
         return
     end
@@ -423,7 +423,7 @@ function _get_configs_for_generator(configs, opt)
     elseif is_plat("windows") then
         table.insert(configs, "-G")
         table.insert(configs, _get_cmake_generator_for_msvc())
-    elseif is_plat("wasm", "wasi") and is_subhost("windows") then
+    elseif is_plat("wasm") and is_subhost("windows") then
         table.insert(configs, "-G")
         table.insert(configs, "MinGW Makefiles")
     else
@@ -456,7 +456,7 @@ function _get_configs(opt)
         _get_configs_for_appleos(configs)
     elseif is_plat("mingw") then
         _get_configs_for_mingw(configs)
-    elseif is_plat("wasm", "wasi") then
+    elseif is_plat("wasm") then
         _get_configs_for_wasm(configs)
     elseif _is_cross_compilation() then
         _get_configs_for_cross(configs)

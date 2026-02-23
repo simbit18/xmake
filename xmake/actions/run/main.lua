@@ -93,15 +93,14 @@ function _do_run_target(target)
     -- get run arguments
     local args = table.wrap(option.get("arguments") or target:get("runargs"))
 
-    -- run wasm target in browser
+    -- run wasm target
     if target:is_plat("wasm") then
-        _run_wasm_target_in_browser(targetfile, {rundir = rundir, addenvs = addenvs, setenvs = setenvs})
-        return
-    end
-
-    -- run wasi target via wasmtime
-    if target:is_plat("wasi") then
-        _run_wasi_target(targetfile, args, {rundir = rundir, addenvs = addenvs, setenvs = setenvs})
+        -- run via wasmtime if using the wasi toolchain, otherwise open in browser
+        if target:toolchain("wasi") then
+            _run_wasi_target(targetfile, args, {rundir = rundir, addenvs = addenvs, setenvs = setenvs})
+        else
+            _run_wasm_target_in_browser(targetfile, {rundir = rundir, addenvs = addenvs, setenvs = setenvs})
+        end
         return
     end
 

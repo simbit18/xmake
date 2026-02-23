@@ -20,7 +20,7 @@
 
 -- @see https://github.com/xmake-io/xmake/issues/3613
 rule("platform.wasm.preloadfiles")
-    on_load("wasm", "wasi", function (target)
+    on_load("wasm", function (target)
         if not target:is_binary() then
             return
         end

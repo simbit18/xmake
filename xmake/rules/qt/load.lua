@@ -479,7 +479,7 @@ function main(target, opt)
         fallbackmkspec = "android-clang"
         target:add("rpathdirs", qt.libdir)
         target:add("linkdirs", qt.libdir)
-    elseif target:is_plat("wasm", "wasi") then
+    elseif target:is_plat("wasm") then
         target:set("frameworks", nil)
         _add_includedirs(target, qt.includedir)
         fallbackmkspec = "wasm-emscripten"

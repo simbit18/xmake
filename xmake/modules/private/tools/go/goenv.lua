@@ -38,8 +38,7 @@ function GOOS(plat)
         dragonfly = "dragonfly",
         solaris = "solaris",
         aix = "aix",
-        plan9 = "plan9",
-        wasi = "wasip1"
+        plan9 = "plan9"
     }
     return goos_map[plat]
 end
