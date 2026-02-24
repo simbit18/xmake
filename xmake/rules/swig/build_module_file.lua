@@ -70,7 +70,7 @@ function jar_build(target, fileconfig, opt)
 
     -- generate jar file
     progress.show(opt.progress, "${color.build.object}compiling.jar %s", target:name() .. ".jar")
-    os.vrunv(jar.program, {"-cf", path.join(java_src_dir, target:name() .. ".jar"), java_class_dir})
+    os.vrunv(jar.program, {"-cf", path.join(java_src_dir, target:name() .. ".jar"), "-C", java_class_dir, "."})
 
     os.tryrm(filelistname)
 end
