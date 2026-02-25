@@ -356,18 +356,16 @@ function main(program, argv, opt)
     }
 
     -- for windows target or on windows?
-    if (config.plat() or os.host()) == "linux" then
-        table.insert(debuggers, 1, {"nnd", _run_nnd})
-    end
-
-    -- for windows target or on windows?
-    if (config.plat() or os.host()) == "windows" then
+    local plat = config.plat() or os.host()
+    if plat == "windows" then
         table.insert(debuggers, 1, {"windbg",           _run_windbg})
         table.insert(debuggers, 1, {"ollydbg",          _run_ollydbg})
         table.insert(debuggers, 1, {"x64dbg",           _run_x64dbg})
         table.insert(debuggers, 1, {"vsjitdebugger",    _run_vsjitdebugger})
         table.insert(debuggers, 1, {"devenv",           _run_devenv})
         table.insert(debuggers, 1, {"raddbg",           _run_raddbg})
+    elseif plat == "linux" then
+        table.insert(debuggers, {"nnd", _run_nnd})
     end
 
     -- get debugger from configuration
