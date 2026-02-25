@@ -310,6 +310,23 @@ function _run_raddbg(program, argv, opt)
     return true
 end
 
+-- run nnd
+function _run_nnd(program, argv, opt)
+    opt = opt or {}
+    local nnd = find_tool("nnd", {program = config.get("debugger")})
+    if not nnd then
+        return false
+    end
+
+    -- patch arguments
+    argv = argv or {}
+    table.insert(argv, 1, program)
+
+    -- run it
+    os.execv(nnd.program, argv, table.join(opt, {exclusive = true}))
+    return true
+end
+
 -- run program with debugger
 --
 -- @param program   the program name
@@ -339,13 +356,16 @@ function main(program, argv, opt)
     }
 
     -- for windows target or on windows?
-    if (config.plat() or os.host()) == "windows" then
+    local plat = config.plat() or os.host()
+    if plat == "windows" then
         table.insert(debuggers, 1, {"windbg",           _run_windbg})
         table.insert(debuggers, 1, {"ollydbg",          _run_ollydbg})
         table.insert(debuggers, 1, {"x64dbg",           _run_x64dbg})
         table.insert(debuggers, 1, {"vsjitdebugger",    _run_vsjitdebugger})
         table.insert(debuggers, 1, {"devenv",           _run_devenv})
         table.insert(debuggers, 1, {"raddbg",           _run_raddbg})
+    elseif plat == "linux" then
+        table.insert(debuggers, {"nnd", _run_nnd})
     end
 
     -- get debugger from configuration
