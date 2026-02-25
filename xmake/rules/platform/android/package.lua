@@ -63,6 +63,11 @@ end
 
 function _sign_apk(apksigner, keystore, keystore_pass, final_apk, tmp_path)
     local aligned_apk = path.join(tmp_path, "unsigned.apk")
+    if keystore == nil then
+        raise("keystore for signing missing; generate one via `keytool` and make it available")
+    elseif keystore_pass == nil then
+        raise("keystore_pass for signing is missing; please provide it")
+    end
     local apksigner_argv = {"sign", "--ks", keystore, "--ks-pass", string.format("pass:%s", keystore_pass), "--out", final_apk, "--in", aligned_apk}
     os.vrunv(apksigner, apksigner_argv)
 end
